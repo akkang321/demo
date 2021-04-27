@@ -16,6 +16,10 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 @Controller
 public class MainController {
 	
+	String sSiteCode = "BS177";
+	String sSitePassword = "fOUAoZn8N0Ev";
+	
+	
 	@RequestMapping(value = { "/index", "/" })
 	public String index(@RequestParam Map<String, Object> param, HttpServletRequest request, Model model,  Locale locale) throws JsonMappingException, JsonProcessingException {
 		

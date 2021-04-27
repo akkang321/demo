@@ -21,10 +21,43 @@ public class MainController {
 	
 	
 	@RequestMapping(value = { "/index", "/" })
-	public String index(@RequestParam Map<String, Object> param, HttpServletRequest request, Model model,  Locale locale) throws JsonMappingException, JsonProcessingException {
+	public String index(@RequestParam Map<String, Object> param, HttpServletRequest request, Model model) throws JsonMappingException, JsonProcessingException {
 		
 		return "index";
 	}
+	
+	@RequestMapping(value = { "/sucess"})
+	public String sucess(@RequestParam Map<String, Object> param, HttpServletRequest request, Model model) throws JsonMappingException, JsonProcessingException {
+		
+		return "sucess";
+	}
+	
+	@RequestMapping(value = { "/fail"})
+	public String fail(@RequestParam Map<String, Object> param, HttpServletRequest request, Model model) throws JsonMappingException, JsonProcessingException {
+		
+		return "fail";
+	}
+	
+	@RequestMapping(value = { "/checkplus_main"})
+	public String checkplus_main(@RequestParam Map<String, Object> param, HttpServletRequest request, Model model) throws JsonMappingException, JsonProcessingException {
+		
+		return "checkplus_main";
+	}
+	
+	@RequestMapping(value = { "/checkplus_fail"})
+	public String checkplus_fail(@RequestParam Map<String, Object> param, HttpServletRequest request, Model model) throws JsonMappingException, JsonProcessingException {
+		
+		return "checkplus_fail";
+	}
+	
+	@RequestMapping(value = { "/checkplus_success"})
+	public String checkplus_success(@RequestParam Map<String, Object> param, HttpServletRequest request, Model model) throws JsonMappingException, JsonProcessingException {
+		
+		return "checkplus_success";
+	}
+	
+	
+	
 	
 	
 }

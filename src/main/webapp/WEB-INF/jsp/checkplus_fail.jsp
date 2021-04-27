@@ -5,8 +5,8 @@
 
     String sEncodeData = requestReplace(request.getParameter("EncodeData"), "encodeData");
 
-    String sSiteCode = "";				// NICE로부터 부여받은 사이트 코드
-    String sSitePassword = "";			// NICE로부터 부여받은 사이트 패스워드
+    String sSiteCode = "BS177";				// NICE로부터 부여받은 사이트 코드
+    String sSitePassword = "fOUAoZn8N0Ev";			// NICE로부터 부여받은 사이트 패스워드
 
     String sCipherTime = "";			// 복호화한 시간
     String sRequestNumber = "";			// 요청 번호

@@ -29,7 +29,7 @@ public class MainController {
 
 	@RequestMapping(value = "/ajax/doCheck")
 	@ResponseBody
-	public String doCheck(@RequestParam Map<String, Object> param, HttpServletRequest request, Model model,
+	public Map doCheck(@RequestParam Map<String, Object> param, HttpServletRequest request, Model model,
 			HttpSession session) throws JsonMappingException, JsonProcessingException {
 
 		NiceID.Check.CPClient niceCheck = new NiceID.Check.CPClient();
@@ -73,8 +73,11 @@ public class MainController {
 		} else {
 			sMessage = "알수 없는 에러 입니다. iReturn : " + iReturn; // 其他错误
 		}
-
-		return sMessage;
+		
+		Map data = new HashMap();
+		data.put("sMessage", sMessage);
+		data.put("sEncData", sEncData);
+		return data;
 	}
 
 	@RequestMapping(value = { "/sucess" })
@@ -85,18 +88,18 @@ public class MainController {
 
 		String sEncodeData = requestReplace(request.getParameter("EncodeData"), "encodeData");
 
-		String sCipherTime = ""; // 복호화한 시간
-		String sRequestNumber = ""; // 요청 번호
-		String sResponseNumber = ""; // 인증 고유번호
-		String sAuthType = ""; // 인증 수단
-		String sName = ""; // 성명
-		String sDupInfo = ""; // 중복가입 확인값 (DI_64 byte)
-		String sConnInfo = ""; // 연계정보 확인값 (CI_88 byte)
-		String sBirthDate = ""; // 생년월일(YYYYMMDD)
-		String sGender = ""; // 성별
-		String sNationalInfo = ""; // 내/외국인정보 (개발가이드 참조)
-		String sMobileNo = ""; // 휴대폰번호
-		String sMobileCo = ""; // 통신사
+		String sCipherTime = ""; //解密时间
+		String sRequestNumber = ""; // 请求ID
+		String sResponseNumber = ""; // 认证固定ID
+		String sAuthType = ""; // 认证方法
+		String sName = ""; // 姓名
+		String sDupInfo = ""; // 重发加入确认值(DI_64 byte)
+		String sConnInfo = ""; // 链接确认值 (CI_88 byte)
+		String sBirthDate = ""; // 生日(YYYYMMDD)
+		String sGender = ""; // 性别
+		String sNationalInfo = ""; //国内/海外 (개발가이드 참조)
+		String sMobileNo = ""; // 手机号
+		String sMobileCo = ""; // 通信公司
 		String sMessage = "";
 		String sPlainData = "";
 
@@ -124,24 +127,24 @@ public class MainController {
 
 			String session_sRequestNumber = (String) session.getAttribute("REQ_SEQ");
 			if (!sRequestNumber.equals(session_sRequestNumber)) {
-				sMessage = "세션값 불일치 오류입니다.";
+				sMessage = "세션값 불일치 오류입니다.";	// sessiong 值不一致
 				sResponseNumber = "";
 				sAuthType = "";
 			}
 		} else if (iReturn == -1) {
-			sMessage = "복호화 시스템 오류입니다.";
+			sMessage = "복호화 시스템 오류입니다."; // 解密系统出错
 		} else if (iReturn == -4) {
-			sMessage = "복호화 처리 오류입니다.";
+			sMessage = "복호화 처리 오류입니다.";	// 解密过程出错
 		} else if (iReturn == -5) {
-			sMessage = "복호화 해쉬 오류입니다.";
+			sMessage = "복호화 해쉬 오류입니다.";	// 解密hash值出错
 		} else if (iReturn == -6) {
-			sMessage = "복호화 데이터 오류입니다.";
+			sMessage = "복호화 데이터 오류입니다."; //解密数据出错
 		} else if (iReturn == -9) {
-			sMessage = "입력 데이터 오류입니다.";
+			sMessage = "입력 데이터 오류입니다.";	//输入值出错
 		} else if (iReturn == -12) {
-			sMessage = "사이트 패스워드 오류입니다.";
+			sMessage = "사이트 패스워드 오류입니다.";	//ID密码出错
 		} else {
-			sMessage = "알수 없는 에러 입니다. iReturn : " + iReturn;
+			sMessage = "알수 없는 에러 입니다. iReturn : " + iReturn; //其他错误
 		}
 
 		model.addAttribute("sCipherTime", sCipherTime);
@@ -166,10 +169,10 @@ public class MainController {
 		NiceID.Check.CPClient niceCheck = new NiceID.Check.CPClient();
 
 		String sEncodeData = requestReplace(request.getParameter("EncodeData"), "encodeData");
-		String sCipherTime = ""; // 복호화한 시간
-		String sRequestNumber = ""; // 요청 번호
-		String sErrorCode = ""; // 인증 결과코드
-		String sAuthType = ""; // 인증 수단
+		String sCipherTime = ""; // 解密时间
+		String sRequestNumber = ""; // 请求ID
+		String sErrorCode = ""; // 认证结果值
+		String sAuthType = ""; // 认证方法
 		String sMessage = "";
 		String sPlainData = "";
 
@@ -184,19 +187,19 @@ public class MainController {
 			sErrorCode = (String) mapresult.get("ERR_CODE");
 			sAuthType = (String) mapresult.get("AUTH_TYPE");
 		} else if (iReturn == -1) {
-			sMessage = "복호화 시스템 에러입니다.";
+			sMessage = "복호화 시스템 에러입니다.";	// 解密系统出错
 		} else if (iReturn == -4) {
-			sMessage = "복호화 처리오류입니다.";
+			sMessage = "복호화 처리오류입니다.";		// 解密过程出错
 		} else if (iReturn == -5) {
-			sMessage = "복호화 해쉬 오류입니다.";
+			sMessage = "복호화 해쉬 오류입니다.";		//解密hash值出错
 		} else if (iReturn == -6) {
-			sMessage = "복호화 데이터 오류입니다.";
+			sMessage = "복호화 데이터 오류입니다.";	//解密数据出错
 		} else if (iReturn == -9) {
-			sMessage = "입력 데이터 오류입니다.";
+			sMessage = "입력 데이터 오류입니다.";		//输入值出错
 		} else if (iReturn == -12) {
-			sMessage = "사이트 패스워드 오류입니다.";
+			sMessage = "사이트 패스워드 오류입니다.";	//ID密码出错
 		} else {
-			sMessage = "알수 없는 에러 입니다. iReturn : " + iReturn;
+			sMessage = "알수 없는 에러 입니다. iReturn : " + iReturn;	//其他错误
 		}
 
 		model.addAttribute("sCipherTime", sCipherTime);
